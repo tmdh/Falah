@@ -48,12 +48,12 @@ class FalahViewModel(private val alarmScheduler: AlarmScheduler) : ViewModel() {
             Prayer(
                 prayerNames[2],
                 prayerTimes.asr,
-                prayerTimes.maghrib.addMinutes(-4),
+                prayerTimes.maghrib.addMinutes(-1),
                 getTimeStored(prayerNames[2])
             ),
             Prayer(
                 prayerNames[3],
-                prayerTimes.maghrib,
+                prayerTimes.maghrib.addMinutes(3),
                 prayerTimes.isha.addMinutes(-1),
                 getTimeStored(prayerNames[3])
             ),
@@ -69,15 +69,14 @@ class FalahViewModel(private val alarmScheduler: AlarmScheduler) : ViewModel() {
 
     fun setAlarms() {
         _uiState.value.allPrayers.forEach { prayer ->
-            // alarmScheduler.schedule(it)
             val alarmTime = prayer.alarmTime
             if (getTimeStored(prayer.name) != alarmTime) {
                 if (alarmTime != null) {
                     kv.encode(prayer.name, "${alarmTime.first}:${alarmTime.second}")
-                    alarmScheduler.schedule(prayer)
+                    alarmScheduler.schedule(prayer.name, alarmTime)
                 } else {
                     kv.encode(prayer.name, null as String?)
-                    alarmScheduler.cancel(prayer)
+                    alarmScheduler.cancel(prayer.name)
                 }
             }
         }

@@ -102,7 +102,7 @@ fun FalahApp(modifier: Modifier = Modifier, falahViewModel: FalahViewModel) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Text(
                 "Prayer times",
-                style = MaterialTheme.typography.displayMedium,
+                style = MaterialTheme.typography.displaySmall,
                 modifier = Modifier.padding(vertical = 16.dp)
             )
             falahUiState.allPrayers.forEach { prayer ->
@@ -172,7 +172,7 @@ fun PrayerCard(
             val alarmTime = prayer.alarmTime
             if (alarmTime != null) {
                 AssistChip(onClick = { onUpdateClick(prayer) },
-                    label = { Text("${alarmTime.first}:${alarmTime.second}") },
+                    label = { Text(formatTimeAsHHMM(alarmTime.first, alarmTime.second)) },
                     leadingIcon = {
                         Icon(
                             painterResource(id = R.drawable.notifications_48px),
@@ -180,6 +180,7 @@ fun PrayerCard(
                             modifier = Modifier.width(18.dp)
                         )
                     })
+                Spacer(Modifier.width(8.dp))
             } else {
                 IconButton(onClick = { onBellClick(prayer) }) {
                     Icon(
@@ -256,4 +257,8 @@ fun TimePickerDialog(
             }
         }
     }
+}
+
+fun formatTimeAsHHMM(hour: Int, minute: Int): String {
+    return String.format("%02d:%02d", hour, minute)
 }
