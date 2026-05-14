@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "io.github.tmdh.falah"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "io.github.tmdh.falah"
